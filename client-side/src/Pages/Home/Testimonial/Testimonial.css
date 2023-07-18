@@ -1,0 +1,18 @@
+/* .shbg2 {
+  background-image: url("https://raw.githubusercontent.com/sajib9090/shikder-drug-house-resources/main/images/shikder3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 80rem;
+  margin: 0 auto;
+  position: relative;
+}
+.shbg2::before {
+  background-color: #009e7ed4;
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 20;
+  left: 0;
+  z-index: 1;
+} */

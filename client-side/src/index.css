@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* custom-utilities.css */
+@layer utilities {
+  .bg-sh {
+    background-color: #009e7e;
+  }
+  .bg-deep-sh {
+    background-color: #023027;
+  }
+  .text-sh {
+    color: #009e7e;
+  }
+  .bg-dark {
+    background-color: #010313;
+  }
+  .bg-dark-1 {
+    background-color: #101434;
+  }
+  .bg-opacity-sh-40 {
+    opacity: 40%;
+  }
+  .bg-opacity-sh-45 {
+    opacity: 45%;
+  }
+  .bg-opacity-sh-50 {
+    opacity: 50%;
+  }
+  .bg-opacity-sh-55 {
+    opacity: 55%;
+  }
+  .bg-opacity-sh-60 {
+    opacity: 60%;
+  }
+  .bg-opacity-sh-65 {
+    opacity: 65%;
+  }
+  .bg-opacity-sh-70 {
+    opacity: 70%;
+  }
+  .bg-opacity-sh-75 {
+    opacity: 75%;
+  }
+  .bg-opacity-sh-80 {
+    opacity: 80%;
+  }
+  .bg-opacity-sh-85 {
+    opacity: 85%;
+  }
+  .bg-opacity-sh-90 {
+    opacity: 90%;
+  }
+
+  .shbg2 {
+    background-image: url("https://raw.githubusercontent.com/sajib9090/shikder-drug-house-resources/main/images/shikder3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 80rem;
+    margin: 0 auto;
+    position: relative;
+  }
+  .shbg2::before {
+    background-color: #009e7ed4;
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 20;
+    left: 0;
+    z-index: 1;
+  }
+
+  .shbg2-dark::before {
+    background-color: #023027;
+    opacity: 80%;
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 20;
+    left: 0;
+    z-index: 1;
+  }
+}
+
+.navbar1 {
+  transition: background-color 0.5s;
+}

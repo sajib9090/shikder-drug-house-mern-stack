@@ -1,0 +1,8 @@
+.shbg {
+  background-image: url(../../../assets/shikder-drug-house-resources/images/hero.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  max-width: 80rem;
+  margin: 0 auto;
+}
