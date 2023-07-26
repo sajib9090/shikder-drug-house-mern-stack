@@ -1,11 +1,32 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/shikder-drug-house-resources/images/shikderDrugHouse.png";
+import defaultIcon from "../../assets/shikder-drug-house-resources/images/defaultIcon.png";
+import icon from "../../assets/shikder-drug-house-resources/images/icon.png";
 
 import { useEffect, useState } from "react";
 import Switcher from "../../Hooks/Switcher/Switcher";
+import useAuth from "../../Hooks/UseAuth";
+import { toast } from "react-hot-toast";
+
+import { BiLogInCircle } from "react-icons/bi";
+import { MdAddLink } from "react-icons/md";
 
 const Navbar = () => {
+  const { user, logOut, loading, setLoading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        // Sign-out successful.
+        toast.success("Log Out Success");
+        navigate("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +41,7 @@ const Navbar = () => {
 
   const navbarClassName = `navbar1 ${
     isScrolled
-      ? "navbar bg-white items-center dark:bg-dark h-[80px] fixed top-0 z-[999] max-w-7xl mx-auto dark:shadow-md dark:shadow-black shadow-2xl"
+      ? "navbar bg-white items-center dark:bg-dark h-[80px] fixed top-0 z-[500] max-w-7xl mx-auto dark:shadow-md dark:shadow-black shadow-2xl"
       : "navbar items-center bg-white dark:bg-dark h-[80px] fixed z-[999] max-w-7xl mx-auto"
   }`;
   return (
@@ -150,34 +171,75 @@ const Navbar = () => {
             </div>
           </div>
           <div className="lg:hidden mr-2">
-            <div title="Profile">
-              <div className="dropdown dropdown-end" title="Profile">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                  <div className="w-10 rounded-full border border-black dark:border-white">
-                    <img src="https://lh3.googleusercontent.com/ogw/AGvuzYY1Ke2kT4ItdYEOuQ7PlhxNWZxEL2mNKmhfUA7lcg=s64-c-mo" />
+            <div title="Account">
+              <div className="dropdown dropdown-end" title="Account">
+                <label
+                  tabIndex={0}
+                  className="btn btn-ghost btn-circle avatar online"
+                >
+                  <div className="w-10 rounded-full">
+                    {user ? (
+                      <img src={user?.photoURL ? user.photoURL : defaultIcon} />
+                    ) : (
+                      <img src={icon} alt="" />
+                    )}
                   </div>
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white dark:bg-dark-1 dark:text-white rounded-box w-52"
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-gray-200 dark:bg-dark dark:text-white rounded-box w-52"
                 >
-                  <li>
-                    <a className="justify-between hover:text-sh">
-                      Profile
-                      {/* <span className="badge">New</span> */}
-                    </a>
-                  </li>
-                  <li title="Dashboard">
-                    <a className="hover:text-sh">Dashboard</a>
-                  </li>
-                  <li title="Login/SignIn">
-                    <Link to="/login" className="hover:text-sh">
-                      Login/Sign In
-                    </Link>
-                  </li>
-                  <li title="Logout">
-                    <a className="hover:text-sh">Logout</a>
-                  </li>
+                  {user && user ? (
+                    <>
+                      <li title="Profile">
+                        <NavLink
+                          to={"/user/profile"}
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-sh font-medium text-base dark:text-gray-500"
+                              : "font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700"
+                          }
+                        >
+                          <p className="justify-between hover:text-sh">
+                            Profile
+                            {/* <span className="badge">New</span> */}
+                          </p>
+                        </NavLink>
+                      </li>
+                      <li title="Dashboard">
+                        <Link to="/dashboard">
+                          <p className="hover:text-sh">Dashboard</p>
+                        </Link>
+                      </li>
+                      <li title="Logout">
+                        <p onClick={handleLogOut} className="hover:text-sh">
+                          Logout
+                        </p>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li title="Login/SignIn">
+                        <Link
+                          to="/login"
+                          className="hover:text-sh flex items-center"
+                        >
+                          Login/Sign In
+                          <BiLogInCircle className="h-5 w-5 text-sh" />
+                        </Link>
+                      </li>
+                      <li title="Register/SignUp">
+                        <Link
+                          to="/signUp"
+                          className="hover:text-sh flex items-center"
+                        >
+                          Register/Sign Up
+                          <MdAddLink className="h-5 w-5 text-sh" />
+                        </Link>
+                      </li>
+                    </>
+                  )}
+
                   <li>
                     <div title="Change Theme">
                       <Switcher />
@@ -286,36 +348,74 @@ const Navbar = () => {
               </div>
             </div>
             <div>
-              <div className="dropdown dropdown-end" title="Profile">
+              <div className="dropdown dropdown-end" title="Account">
                 <label
                   tabIndex={0}
                   className="btn btn-ghost btn-circle avatar online"
                 >
-                  <div className="w-10 rounded-full border border-gray-300 dark:border-white">
-                    <img src="https://lh3.googleusercontent.com/ogw/AGvuzYY1Ke2kT4ItdYEOuQ7PlhxNWZxEL2mNKmhfUA7lcg=s64-c-mo" />
+                  <div className="w-10 rounded-full">
+                    {/* <img src={user?.photoURL ? user.photoURL : defaultIcon} /> */}
+                    {user ? (
+                      <img src={user?.photoURL ? user.photoURL : defaultIcon} />
+                    ) : (
+                      <img src={icon} alt="" />
+                    )}
                   </div>
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white dark:bg-dark-1 dark:text-white rounded-box w-52"
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-gray-200 dark:bg-dark-1 dark:text-white rounded-box w-52"
                 >
-                  <li>
-                    <a className="justify-between hover:text-sh">
-                      Profile
-                      {/* <span className="badge">New</span> */}
-                    </a>
-                  </li>
-                  <li title="Dashboard">
-                    <a className="hover:text-sh">Dashboard</a>
-                  </li>
-                  <li title="Login/SignIn">
-                    <Link to="/login" className="hover:text-sh">
-                      Login/Sign In
-                    </Link>
-                  </li>
-                  <li>
-                    <a className="hover:text-sh">Logout</a>
-                  </li>
+                  {user && user ? (
+                    <>
+                      <li title="Profile">
+                        <NavLink
+                          to={"/user/profile"}
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-sh font-medium text-base dark:text-gray-500"
+                              : "font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700"
+                          }
+                        >
+                          <p className="justify-between hover:text-sh">
+                            Profile
+                            {/* <span className="badge">New</span> */}
+                          </p>
+                        </NavLink>
+                      </li>
+                      <li title="Dashboard">
+                        <Link to="/dashboard">
+                          <p className="hover:text-sh">Dashboard</p>
+                        </Link>
+                      </li>
+                      <li title="Logout">
+                        <p onClick={handleLogOut} className="hover:text-sh">
+                          Logout
+                        </p>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li title="Login/SignIn">
+                        <Link
+                          to="/login"
+                          className="hover:text-sh flex items-center"
+                        >
+                          Login/Sign In
+                          <BiLogInCircle className="h-5 w-5 text-sh" />
+                        </Link>
+                      </li>
+                      <li title="Register/SignUp">
+                        <Link
+                          to="/signUp"
+                          className="hover:text-sh flex items-center"
+                        >
+                          Register/Sign Up
+                          <MdAddLink className="h-5 w-5 text-sh" />
+                        </Link>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>

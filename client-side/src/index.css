@@ -13,11 +13,17 @@
   .text-sh {
     color: #009e7e;
   }
+  .badge-sh {
+    background-color: #009e7e;
+  }
   .bg-dark {
     background-color: #010313;
   }
   .bg-dark-1 {
     background-color: #101434;
+  }
+  .bg-dark-2 {
+    background-color: #1d203a;
   }
   .bg-opacity-sh-40 {
     opacity: 40%;

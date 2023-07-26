@@ -12,7 +12,7 @@ const Hero = () => {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <button className="btn bg-black bg-opacity-100 hover:bg-sh animate-bounce duration-700 text-white border-none">
+            <button className="btn hover:animate-none bg-black bg-opacity-100 hover:bg-sh animate-bounce duration-700 text-white border-none">
               Get Started
             </button>
           </div>
