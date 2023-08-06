@@ -57,7 +57,6 @@ const SignUp = () => {
               const saveUser = {
                 name: data.name,
                 email: data.email,
-                role: "user",
               };
               fetch(`${import.meta.env.VITE_API_URL}/add/users`, {
                 method: "POST",
@@ -117,7 +116,7 @@ const SignUp = () => {
           const saveUser = {
             name: user.displayName,
             email: user.email,
-            role: "user",
+            image: user.photoURL,
           };
           fetch(`${import.meta.env.VITE_API_URL}/add/users`, {
             method: "POST",

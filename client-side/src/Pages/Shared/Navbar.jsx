@@ -2,20 +2,30 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/shikder-drug-house-resources/images/shikderDrugHouse.png";
 import defaultIcon from "../../assets/shikder-drug-house-resources/images/defaultIcon.png";
 import icon from "../../assets/shikder-drug-house-resources/images/icon.png";
-
 import { useEffect, useState } from "react";
 import Switcher from "../../Hooks/Switcher/Switcher";
 import useAuth from "../../Hooks/UseAuth";
 import { toast } from "react-hot-toast";
-
 import { BiLogInCircle } from "react-icons/bi";
 import { MdAddLink } from "react-icons/md";
+import useGetCart from "../../Hooks/useGetCart";
 
 const Navbar = () => {
-  const { user, logOut, loading, setLoading } = useAuth();
+  const { user, logOut, setLoading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [specifiedUser, setSpecifiedUser] = useState([]);
   const navigate = useNavigate();
 
+  const [getCarts, getCartRefetch] = useGetCart();
+  const subTotal = getCarts
+    .reduce(
+      (sum, item) => item.product_price_per_unit * item.product_quantity + sum,
+      0
+    )
+    .toFixed(2);
+  // console.log(subTotal);
+
+  // handle logout function
   const handleLogOut = () => {
     logOut()
       .then(() => {
@@ -27,6 +37,18 @@ const Navbar = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (user) {
+      fetch(
+        `${import.meta.env.VITE_API_URL}/usersGetByEmail/${user && user?.email}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecifiedUser(data);
+        });
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,49 +149,56 @@ const Navbar = () => {
           <Link to="/">
             <img className="w-[200px] md:w-[100%]" src={logo} alt="" />
           </Link>
-          <div className="lg:hidden" title="Cart">
-            <div className="dropdown dropdown-end" title="Cart">
-              <label tabIndex={0} className="btn btn-ghost btn-circle">
-                <div className="indicator">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="#009e7e"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="3"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                  <span className="badge badge-sm indicator-item bg-sh text-white">
-                    8
-                  </span>
-                </div>
-              </label>
-              <div
-                tabIndex={0}
-                className="mt-3 z-[1] card card-compact dropdown-content w-52  bg-white shadow"
-              >
-                <div className="card-body dark:bg-dark-1 rounded-lg">
-                  <span className="font-bold text-lg dark:text-white">
-                    8 Items
-                  </span>
-                  <span className="text-info dark:text-gray-500">
-                    Subtotal: $999
-                  </span>
-                  <div className="card-actions">
-                    <button className="btn btn-primary btn-block">
-                      View cart
-                    </button>
+          {(specifiedUser && specifiedUser?.role === "customer") ||
+          (specifiedUser && specifiedUser?.role === "seller") ? (
+            <div className="lg:hidden" title="Cart">
+              <div className="dropdown dropdown-end" title="Cart">
+                <label tabIndex={0} className="btn btn-ghost btn-circle">
+                  <div className="indicator">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="#009e7e"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="3"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                    <span className="badge badge-sm indicator-item bg-sh text-white">
+                      {getCarts?.length}
+                    </span>
+                  </div>
+                </label>
+                <div
+                  tabIndex={0}
+                  className="mt-3 z-[1] card card-compact dropdown-content w-44  bg-white shadow"
+                >
+                  <div className="card-body dark:bg-dark-1 rounded-lg">
+                    <span className="font-bold text-lg dark:text-white">
+                      {getCarts?.length} Items
+                    </span>
+                    <span className="text-info dark:text-gray-500">
+                      Total: <span className="font-bold">{subTotal}</span> TK
+                    </span>
+                    <div className="card-actions">
+                      <Link to={`/cart/details`}>
+                        <button className="bg-sh py-2 px-4 rounded-3xl text-white btn-block">
+                          View cart
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
           <div className="lg:hidden mr-2">
             <div title="Account">
               <div className="dropdown dropdown-end" title="Account">
@@ -200,17 +229,24 @@ const Navbar = () => {
                               : "font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700"
                           }
                         >
-                          <p className="justify-between hover:text-sh">
+                          <p className="justify-between">
                             Profile
                             {/* <span className="badge">New</span> */}
                           </p>
                         </NavLink>
                       </li>
-                      <li title="Dashboard">
-                        <Link to="/dashboard">
-                          <p className="hover:text-sh">Dashboard</p>
-                        </Link>
-                      </li>
+                      {specifiedUser?.role === "admin" ||
+                      specifiedUser?.role === "seller" ? (
+                        <li title="Dashboard">
+                          <Link to="/dashboard">
+                            <p className=" font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700">
+                              Dashboard
+                            </p>
+                          </Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                       <li title="Logout">
                         <p onClick={handleLogOut} className="hover:text-sh">
                           Logout
@@ -304,49 +340,56 @@ const Navbar = () => {
             </NavLink>
           </ul>
           <div className="flex items-center space-x-4 mr-4">
-            <div>
-              <div className="dropdown dropdown-end" title="Cart">
-                <label tabIndex={0} className="btn btn-ghost btn-circle">
-                  <div className="indicator">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="#009e7e"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="3"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                    <span className="badge badge-sm indicator-item bg-sh text-white">
-                      8
-                    </span>
-                  </div>
-                </label>
-                <div
-                  tabIndex={0}
-                  className="mt-3 z-[1] card card-compact dropdown-content w-52  bg-white shadow"
-                >
-                  <div className="card-body dark:bg-dark-1 rounded-lg">
-                    <span className="font-bold text-lg dark:text-white">
-                      8 Items
-                    </span>
-                    <span className="text-info dark:text-gray-500">
-                      Subtotal: $999
-                    </span>
-                    <div className="card-actions">
-                      <button className="btn btn-primary btn-block">
-                        View cart
-                      </button>
+            {(specifiedUser && specifiedUser?.role === "customer") ||
+            (specifiedUser && specifiedUser?.role === "seller") ? (
+              <div>
+                <div className="dropdown dropdown-end" title="Cart">
+                  <label tabIndex={0} className="btn btn-ghost btn-circle">
+                    <div className="indicator">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="#009e7e"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="3"
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                      <span className="badge badge-sm indicator-item bg-sh text-white">
+                        {getCarts?.length}
+                      </span>
+                    </div>
+                  </label>
+                  <div
+                    tabIndex={0}
+                    className="mt-3 z-[1] card card-compact dropdown-content w-52  bg-white shadow"
+                  >
+                    <div className="card-body dark:bg-dark-1 rounded-lg">
+                      <span className="font-bold text-lg dark:text-white">
+                        {getCarts?.length} Items
+                      </span>
+                      <span className="text-info dark:text-gray-500">
+                        Total: <span className="font-bold">{subTotal}</span> TK
+                      </span>
+                      <div className="card-actions">
+                        <Link to={`/cart/details`}>
+                          <button className="bg-sh py-2 px-4 rounded-3xl text-white btn-block">
+                            View cart
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
             <div>
               <div className="dropdown dropdown-end" title="Account">
                 <label
@@ -377,19 +420,30 @@ const Navbar = () => {
                               : "font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700"
                           }
                         >
-                          <p className="justify-between hover:text-sh">
+                          <p className="justify-between">
                             Profile
                             {/* <span className="badge">New</span> */}
                           </p>
                         </NavLink>
                       </li>
-                      <li title="Dashboard">
-                        <Link to="/dashboard">
-                          <p className="hover:text-sh">Dashboard</p>
-                        </Link>
-                      </li>
+                      {specifiedUser?.role === "admin" ||
+                      specifiedUser?.role === "seller" ? (
+                        <li title="Dashboard">
+                          <Link to="/dashboard">
+                            <p className=" font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700">
+                              Dashboard
+                            </p>
+                          </Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+
                       <li title="Logout">
-                        <p onClick={handleLogOut} className="hover:text-sh">
+                        <p
+                          onClick={handleLogOut}
+                          className=" font-medium text-base dark:text-white hover:text-sh hover:dark:text-gray-500 duration-700"
+                        >
                           Logout
                         </p>
                       </li>

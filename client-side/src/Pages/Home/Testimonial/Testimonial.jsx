@@ -59,7 +59,7 @@ const Testimonial = () => {
   //   fontWeight: "bold",
   // };
   return (
-    <div className="mt-40">
+    <div className="mt-40 mb-24 md:mb-40">
       <div className="hero min-h-screen md:min-h-[650px] shbg2 dark:shbg2-dark">
         <div className="hero-content text-center z-10 relative flex flex-col">
           <div>

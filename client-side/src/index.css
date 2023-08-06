@@ -59,6 +59,14 @@
     opacity: 90%;
   }
 
+  .shop {
+    background-image: url(../src/assets/shikder-drug-house-resources/images/kristine-wook-E1_RW3HIbUw-unsplash.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 80rem;
+    margin: 0 auto;
+    position: relative;
+  }
   .shbg2 {
     background-image: url("https://raw.githubusercontent.com/sajib9090/shikder-drug-house-resources/main/images/shikder3.jpg");
     background-repeat: no-repeat;
@@ -93,4 +101,63 @@
 
 .navbar1 {
   transition: background-color 0.5s;
+}
+
+/* react tabs style */
+
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+
+  position: relative;
+  list-style: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+  background: #009e7e;
+
+  color: white;
+  border-radius: 5px 5px 0 0;
+}
+
+.react-tabs__tab:focus {
+  outline: none;
+}
+
+.react-tabs__tab:focus:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  left: -4px;
+  right: -4px;
+  bottom: -5px;
+}
+
+.react-tabs__tab-panel {
+  display: none;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
+}
+
+/*
+  ACCORDION CSS
+*/
+
+.accordion__panel {
+  animation: fadein 0.35s;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

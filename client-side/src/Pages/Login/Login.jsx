@@ -37,7 +37,6 @@ const Login = () => {
           reset();
           toast.success("Login Success");
           navigate(from, { replace: true });
-          console.log(user);
         })
         .catch((error) => {
           const errorMessage = error.message;
@@ -58,12 +57,12 @@ const Login = () => {
         .then((result) => {
           const user = result.user;
           navigate(from, { replace: true });
-          toast.success("User Login successfully");
+          toast.success("Login successfully");
 
           const saveUser = {
             name: user.displayName,
             email: user.email,
-            role: "user",
+            image: user.photoURL,
           };
 
           fetch(`${import.meta.env.VITE_API_URL}/add/users`, {
@@ -75,7 +74,7 @@ const Login = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log(data);
+              // console.log(data);
               if (data.insertedId) {
                 navigate(from, { replace: true });
                 // toast.success("User Login successfully");
