@@ -5,7 +5,7 @@ const ProductCard = (props) => {
   const linkProps = props.isDisabled ? {} : { to: props.to };
   return (
     <div
-      className={`flex flex-col mb-12 md:mb-0 p-2 shadow-2xl pb-4 ${disabledClass}`}
+      className={`flex flex-col mb-12 md:mb-0 p-2 pb-4 hover:shadow-lg duration-700 ${disabledClass}`}
     >
       <div>
         <img
@@ -15,8 +15,11 @@ const ProductCard = (props) => {
         />
       </div>
       <div>
-        <Link to={props.to} className="block">
-          <h3 className="text-base md:text-xl font-semibold my-6 dark:text-white ">
+        <p className=" my-1 dark:text-white flex items-center">{props.views}</p>
+        <p className=" my-2 dark:text-white flex items-center">{props.stock}</p>
+
+        <Link onClick={props.handleViewCount} to={props.to} className="block">
+          <h3 className="text-base hover:text-sh hover:underline duration-500 md:text-xl font-semibold mt-1 mb-3 dark:text-white ">
             {props.title}
           </h3>
         </Link>
@@ -28,7 +31,7 @@ const ProductCard = (props) => {
         <button
           onClick={props.handleButtonClick}
           disabled={props.isDisabled}
-          className="bg-[#009F7F] border-none text-xs md:text-sm hover:bg-sh duration-700 text-white px-5 py-2 md:py-3 hover:bg-sh hover:bg-opacity-sh-75 rounded-3xl w-[100px] "
+          className="bg-[#009F7F] border-none text-xs md:text-sm hover:bg-sh duration-700 text-white px-5 py-2 md:py-3 hover:bg-sh hover:bg-opacity-sh-75 rounded hover:rounded-3xl w-[100px] "
         >
           {props.button}
         </button>

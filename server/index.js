@@ -8,7 +8,12 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 //MIDDLE WARE
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // mongoDB
@@ -65,7 +70,7 @@ async function run() {
     // post api for jwt
     app.post("/jwt", async (req, res) => {
       const body = req.body;
-      0;
+
       const token = jwt.sign(body, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "7d",
       });
@@ -587,7 +592,7 @@ async function run() {
     });
     app.get("/all/products", async (req, res) => {
       const page = parseInt(req.query.page) || 1;
-      const perPage = 30;
+      const perPage = 20;
       const skip = (page - 1) * perPage;
 
       const sortOrder = -1; // -1 for descending (latest order first) or 1 for ascending (oldest order first)
@@ -665,6 +670,36 @@ async function run() {
         res.send(result);
       } catch (error) {
         res.status(500).send("Error updating user information.");
+      }
+    });
+
+    app.put("/product/:id", async (req, res) => {
+      const productId = req.params.id;
+      const newView = req.body.value;
+
+      try {
+        const product = await productsCollection.findOne({
+          _id: new ObjectId(productId),
+        });
+
+        if (!product) {
+          return res.status(404).send({ error: "Product not found." });
+        }
+
+        // Initialize views to 0 if not present
+        const currentViews = product.views || 0;
+
+        const updatedValue = currentViews + newView;
+        await productsCollection.updateOne(
+          { _id: new ObjectId(productId) },
+          { $set: { views: updatedValue } }
+        );
+
+        res.send({ message: "Value updated successfully." });
+      } catch (err) {
+        res
+          .status(500)
+          .send({ error: "An error occurred while updating the value." });
       }
     });
 

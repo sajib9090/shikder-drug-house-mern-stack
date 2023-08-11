@@ -23,6 +23,11 @@ const Navbar = () => {
       0
     )
     .toFixed(2);
+  const totalQuanity = getCarts.reduce(
+    (sum, item) => item.product_quantity + sum,
+    0
+  );
+
   // console.log(subTotal);
 
   // handle logout function
@@ -186,7 +191,7 @@ const Navbar = () => {
                       Total: <span className="font-bold">{subTotal}</span> TK
                     </span>
                     <div className="card-actions">
-                      <Link to={`/cart/details`}>
+                      <Link to={`/shop/cart/details`}>
                         <button className="bg-sh py-2 px-4 rounded-3xl text-white btn-block">
                           View cart
                         </button>
@@ -361,7 +366,7 @@ const Navbar = () => {
                         />
                       </svg>
                       <span className="badge badge-sm indicator-item bg-sh text-white">
-                        {getCarts?.length}
+                        {totalQuanity}
                       </span>
                     </div>
                   </label>
@@ -373,11 +378,14 @@ const Navbar = () => {
                       <span className="font-bold text-lg dark:text-white">
                         {getCarts?.length} Items
                       </span>
+                      <span className=" dark:text-white">
+                        {totalQuanity} Quantity
+                      </span>
                       <span className="text-info dark:text-gray-500">
                         Total: <span className="font-bold">{subTotal}</span> TK
                       </span>
                       <div className="card-actions">
-                        <Link to={`/cart/details`}>
+                        <Link to={`/shop/cart/details`}>
                           <button className="bg-sh py-2 px-4 rounded-3xl text-white btn-block">
                             View cart
                           </button>

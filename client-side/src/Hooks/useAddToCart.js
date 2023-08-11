@@ -14,6 +14,11 @@ const useAddToCart = () => {
       navigate("/login");
       return;
     }
+    if (product.medicine_available_quantity == 0) {
+      toast.error("Insufficient Quantity");
+
+      return;
+    }
 
     const cartItem = {
       product_id: product._id,

@@ -9,7 +9,8 @@ import useAuth from "../../Hooks/UseAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useGetCart from "../../Hooks/useGetCart";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineCheck } from "react-icons/ai";
+import { RxCross2 } from "react-icons/rx";
 
 const ProductDetails = () => {
   const data = useLoaderData();
@@ -102,6 +103,19 @@ const ProductDetails = () => {
             <p className="text-xl text-sh">
               Price: TK. {data.medicine_price_per_unit}
             </p>
+            <p className="">
+              {data.medicine_available_quantity === 0 ? (
+                <span className="text-red-600 flex items-center">
+                  <RxCross2 className="text-red-600 h-4 w-4" />
+                  Out of Stock
+                </span>
+              ) : (
+                <span className="text-sh flex items-center">
+                  <AiOutlineCheck className="text-sh h-4 w-4" />
+                  In Stock
+                </span>
+              )}
+            </p>
             <ul className="pl-4 dark:text-gray-400 mt-5 list-disc">
               <li>Platea lectus est tortor et euismod hendrerit.</li>
               <li>himenaeos morbi bibendum montes.</li>
@@ -112,7 +126,7 @@ const ProductDetails = () => {
               <div className="flex">
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="text-lg font-bold dark:text-white bg-sh mx-auto text-white w-8 h-8 text-center"
+                  className="text-lg duration-700 font-bold dark:text-white bg-sh mx-auto text-white w-8 h-8 text-center"
                 >
                   +
                 </button>
@@ -125,14 +139,14 @@ const ProductDetails = () => {
                       setQuantity(quantity - 1);
                     }
                   }}
-                  className="text-lg font-bold dark:text-white bg-sh text-white w-8 h-8 text-center"
+                  className="text-lg font-bold duration-700 dark:text-white bg-sh text-white w-8 h-8 text-center"
                 >
                   -
                 </button>
               </div>
               <button
                 onClick={() => handleAddToCart(data)}
-                className="bg-sh rounded-3xl text-white h-[40px] w-[120px] hover:bg-opacity-sh-70 duration-700"
+                className="bg-sh rounded hover:rounded-3xl text-white h-[40px] w-[120px] hover:bg-opacity-sh-70 duration-700"
               >
                 {addCartLoading ? (
                   <AiOutlineLoading3Quarters className="animate-spin mx-auto h-6 w-6" />
@@ -148,7 +162,7 @@ const ProductDetails = () => {
                 {socials.map((social) => (
                   <p
                     key={social.id}
-                    className="w-7 h-7 flex justify-center items-center text-white px-2 bg-sh cursor-pointer hover:bg-sh hover:bg-opacity-sh-70 duration-700 rounded-md"
+                    className="w-7 h-7 flex justify-center items-center text-white px-2 bg-sh cursor-pointer hover:bg-sh hover:bg-opacity-sh-70 duration-700 rounded-md hover:scale-105"
                   >
                     {social.link}
                   </p>

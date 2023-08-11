@@ -1,8 +1,25 @@
+// import { useEffect } from "react";
+// import AOS from "aos";
+// import "aos/dist/aos.css";
+
 const WhoWe = () => {
+  // useEffect(() => {
+  //   AOS.init();
+  // }, []);
   return (
     <div className="max-w-7xl mx-auto mt-28 md:mt-40 px-4 md:px-10 md:min-h-[620px] md:max-h-[620px]">
       <div className="flex md:flex-row flex-col-reverse">
-        <div className="md:min-h-[650px] md:max-h-[650px] md:w-[52%]">
+        <div
+          className="md:min-h-[650px] md:max-h-[650px] md:w-[52%]"
+          // data-aos="fade-right"
+          // data-aos-offset="100"
+          // data-aos-delay="10"
+          // data-aos-duration="500"
+          // data-aos-easing="ease-in-out"
+          // data-aos-mirror="true"
+          // data-aos-once="false"
+          // data-aos-anchor-placement="top-center"
+        >
           <div>
             <h1 className="text-[#009E7E] text-xl md:text-2xl font-bold mt-12 mb-6">
               Who We Are?
@@ -18,7 +35,17 @@ const WhoWe = () => {
             </p>
           </div>
         </div>
-        <div className="md:min-h-[620px] md:max-h-[620px] md:w-[48%]">
+        <div
+          className="md:min-h-[620px] md:max-h-[620px] md:w-[48%]"
+          // data-aos="fade-left"
+          // data-aos-offset="100"
+          // data-aos-delay="10"
+          // data-aos-duration="500"
+          // data-aos-easing="ease-in-out"
+          // data-aos-mirror="true"
+          // data-aos-once="false"
+          // data-aos-anchor-placement="top-center"
+        >
           <img
             className="w-full h-full rounded-2xl"
             src="https://raw.githubusercontent.com/sajib9090/shikder-drug-house-resources/main/images/two-pharmacist.jpg"
