@@ -1,3 +1,4 @@
+import React from "react";
 import ProductCard from "../../../Components/ProductCard/ProductCard";
 import useAuth from "../../../Hooks/UseAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -50,7 +51,7 @@ const Products = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {productWithCustomerCategory?.slice(0, 4).map((product) => (
-          <>
+          <React.Fragment key={product._id}>
             {user?.email === product?.seller_email ||
             adminUser.role === "admin" ? (
               <ProductCard
@@ -137,7 +138,7 @@ const Products = () => {
                 }
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>

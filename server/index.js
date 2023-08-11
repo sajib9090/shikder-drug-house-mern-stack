@@ -1,11 +1,12 @@
 const express = require("express");
-const cors = require("cors");
 const app = express();
+const cors = require("cors");
 const port = process.env.PORT || 5000;
 const moment = require("moment-timezone");
 const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
+app.use(express.json());
 
 //MIDDLE WARE
 const corsOptions = {
@@ -14,7 +15,6 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-app.use(express.json());
 
 // mongoDB
 
@@ -673,7 +673,7 @@ async function run() {
       }
     });
 
-    app.put("/product/:id", async (req, res) => {
+    app.put("/product/views/:id", async (req, res) => {
       const productId = req.params.id;
       const newView = req.body.value;
 

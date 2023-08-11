@@ -71,6 +71,8 @@ const Navbar = () => {
       ? "navbar bg-white items-center dark:bg-dark h-[80px] fixed top-0 z-[500] max-w-7xl mx-auto dark:shadow-md dark:shadow-black shadow-2xl"
       : "navbar items-center bg-white dark:bg-dark h-[80px] fixed z-[999] max-w-7xl mx-auto"
   }`;
+
+  const online = user ? "online" : "";
   return (
     <div className="max-w-7xl mx-auto">
       <div className={navbarClassName}>
@@ -402,7 +404,7 @@ const Navbar = () => {
               <div className="dropdown dropdown-end" title="Account">
                 <label
                   tabIndex={0}
-                  className="btn btn-ghost btn-circle avatar online"
+                  className={`btn btn-ghost btn-circle avatar ${online}`}
                 >
                   <div className="w-10 rounded-full">
                     {/* <img src={user?.photoURL ? user.photoURL : defaultIcon} /> */}

@@ -3,7 +3,7 @@ import "@smastrom/react-rating/style.css";
 import { FaFacebook, FaLinkedin, FaPinterest, FaTwitter } from "react-icons/fa";
 import payment from "../../assets/shikder-drug-house-resources/images/payment.png";
 import Shipping from "../../Pages/Home/CustomersChoice/Shipping";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../Hooks/UseAuth";
 import axios from "axios";
@@ -18,6 +18,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [addCartLoading, setAddCartLoading] = useState(false);
   const [getCarts, getCartRefetch] = useGetCart();
+  const navigate = useNavigate();
 
   const socials = [
     {
@@ -39,6 +40,9 @@ const ProductDetails = () => {
   ];
 
   const handleAddToCart = async (product) => {
+    if (!user?.email) {
+      return navigate("/login");
+    }
     if (parseInt(data.medicine_available_quantity) < quantity) {
       return toast.error("Insufficient Quantity");
     } else {
@@ -104,7 +108,7 @@ const ProductDetails = () => {
               Price: TK. {data.medicine_price_per_unit}
             </p>
             <p className="">
-              {data.medicine_available_quantity === 0 ? (
+              {data.medicine_available_quantity == 0 ? (
                 <span className="text-red-600 flex items-center">
                   <RxCross2 className="text-red-600 h-4 w-4" />
                   Out of Stock

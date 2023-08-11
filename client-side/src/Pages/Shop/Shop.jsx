@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../Hooks/UseAuth";
 import useAdminUser from "../../Hooks/useAdminUser/useAdminUser";
 import useAddToCart from "../../Hooks/useAddToCart";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { BsFillEyeFill } from "react-icons/bs";
@@ -111,7 +111,7 @@ const Shop = () => {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 px-4">
           {products?.map((product) => (
-            <>
+            <React.Fragment key={product?._id}>
               {user?.email === product?.seller_email ||
               adminUser.role === "admin" ? (
                 <ProductCard
@@ -198,7 +198,7 @@ const Shop = () => {
                   }
                 />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       )}

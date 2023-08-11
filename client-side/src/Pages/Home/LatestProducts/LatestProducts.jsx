@@ -10,6 +10,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { BsFillEyeFill } from "react-icons/bs";
 import useViewIncrement from "../../../Hooks/useViewIncrement";
+import React from "react";
 
 const LatestProducts = () => {
   const { loading, user } = useAuth();
@@ -49,7 +50,7 @@ const LatestProducts = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6 pb-6">
         {productWithLatesCategory?.slice(0, 10).map((product) => (
-          <>
+          <React.Fragment key={product?._id}>
             {user?.email === product?.seller_email ||
             adminUser.role === "admin" ? (
               <ProductCard
@@ -136,7 +137,7 @@ const LatestProducts = () => {
                 }
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>
